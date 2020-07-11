@@ -1,0 +1,237 @@
+-- MySQL dump 10.16  Distrib 10.1.38-MariaDB, for Win32 (AMD64)
+--
+-- Host: localhost    Database: lmt
+-- ------------------------------------------------------
+-- Server version	10.1.38-MariaDB
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `address`
+--
+
+DROP TABLE IF EXISTS `address`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `address` (
+  `City_Code` varchar(10) NOT NULL,
+  `City` varchar(20) NOT NULL,
+  PRIMARY KEY (`City_Code`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `address`
+--
+
+LOCK TABLES `address` WRITE;
+/*!40000 ALTER TABLE `address` DISABLE KEYS */;
+INSERT INTO `address` VALUES ('BTN0445','Biratnagar'),('KTM0025','Kamalpokhari'),('KTM0096','Bishalnagar'),('PA0622','Pokhara'),('SD489','Sundar dulari');
+/*!40000 ALTER TABLE `address` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `colleges`
+--
+
+DROP TABLE IF EXISTS `colleges`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `colleges` (
+  `College_ID` varchar(10) NOT NULL,
+  `Established` date NOT NULL,
+  `Address_code` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`College_ID`),
+  KEY `Address_code` (`Address_code`),
+  CONSTRAINT `colleges_ibfk_1` FOREIGN KEY (`Address_code`) REFERENCES `address` (`City_Code`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `colleges`
+--
+
+LOCK TABLES `colleges` WRITE;
+/*!40000 ALTER TABLE `colleges` DISABLE KEYS */;
+INSERT INTO `colleges` VALUES ('HCK','2006-08-06','KTM0096'),('ICK','1996-01-02','KTM0025'),('ICP','2011-04-04','PA0622'),('IICM','2017-04-12','SD489'),('MCB','2013-02-04','BTN0445');
+/*!40000 ALTER TABLE `colleges` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `colleges_details`
+--
+
+DROP TABLE IF EXISTS `colleges_details`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `colleges_details` (
+  `College_ID` varchar(10) DEFAULT NULL,
+  `College_Name` varchar(40) DEFAULT NULL,
+  UNIQUE KEY `College_ID` (`College_ID`),
+  UNIQUE KEY `College_Name` (`College_Name`),
+  CONSTRAINT `colleges_details_ibfk_1` FOREIGN KEY (`College_ID`) REFERENCES `colleges` (`College_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `colleges_details`
+--
+
+LOCK TABLES `colleges_details` WRITE;
+/*!40000 ALTER TABLE `colleges_details` DISABLE KEYS */;
+INSERT INTO `colleges_details` VALUES ('ICK','Islington college'),('MCB','Merryland college'),('HCK','Herald college'),('IICM','Ithari International collage'),('ICP','Informcatics college');
+/*!40000 ALTER TABLE `colleges_details` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `course`
+--
+
+DROP TABLE IF EXISTS `course`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `course` (
+  `Course_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Credits` int(11) NOT NULL,
+  `Degree` varchar(5) NOT NULL,
+  `Department_ID` varchar(10) DEFAULT NULL,
+  `Islington_college` varchar(10) DEFAULT NULL,
+  `Merryland_college` varchar(10) DEFAULT NULL,
+  `Herald_college` varchar(10) DEFAULT NULL,
+  `Ithari_international_college` varchar(10) DEFAULT NULL,
+  `Informatics_college` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`Course_ID`),
+  KEY `Islington_college` (`Islington_college`),
+  KEY `Merryland_college` (`Merryland_college`),
+  KEY `Herald_college` (`Herald_college`),
+  KEY `Ithari_international_college` (`Ithari_international_college`),
+  KEY `Informatics_college` (`Informatics_college`),
+  KEY `Department_ID` (`Department_ID`),
+  CONSTRAINT `course_ibfk_1` FOREIGN KEY (`Islington_college`) REFERENCES `colleges` (`College_ID`),
+  CONSTRAINT `course_ibfk_2` FOREIGN KEY (`Merryland_college`) REFERENCES `colleges` (`College_ID`),
+  CONSTRAINT `course_ibfk_3` FOREIGN KEY (`Herald_college`) REFERENCES `colleges` (`College_ID`),
+  CONSTRAINT `course_ibfk_4` FOREIGN KEY (`Ithari_international_college`) REFERENCES `colleges` (`College_ID`),
+  CONSTRAINT `course_ibfk_5` FOREIGN KEY (`Informatics_college`) REFERENCES `colleges` (`College_ID`),
+  CONSTRAINT `course_ibfk_6` FOREIGN KEY (`Department_ID`) REFERENCES `department` (`Department_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `course`
+--
+
+LOCK TABLES `course` WRITE;
+/*!40000 ALTER TABLE `course` DISABLE KEYS */;
+INSERT INTO `course` VALUES (1,360,'BIT','DD0001','ICK',NULL,'HCK','IICM','ICP'),(2,360,'BIT','DD0001','ICK',NULL,NULL,NULL,NULL),(3,360,'BIT','DD0001','ICK',NULL,NULL,NULL,NULL),(4,360,'BIT','DD0001','ICK',NULL,NULL,NULL,NULL),(5,360,'BBA','DD00002','ICK',NULL,NULL,NULL,NULL),(6,360,'BBA','DD00002','ICK','MCB','HCK','IICM','ICP');
+/*!40000 ALTER TABLE `course` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `department`
+--
+
+DROP TABLE IF EXISTS `department`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `department` (
+  `Department_ID` varchar(10) NOT NULL,
+  `Islington_college` varchar(10) DEFAULT NULL,
+  `Merryland_college` varchar(10) DEFAULT NULL,
+  `Herald_college` varchar(10) DEFAULT NULL,
+  `Ithari_international_college` varchar(10) DEFAULT NULL,
+  `Informatics_college` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`Department_ID`),
+  KEY `Islington_college` (`Islington_college`),
+  KEY `Merryland_college` (`Merryland_college`),
+  KEY `Herald_college` (`Herald_college`),
+  KEY `Ithari_international_college` (`Ithari_international_college`),
+  KEY `Informatics_college` (`Informatics_college`),
+  CONSTRAINT `department_ibfk_1` FOREIGN KEY (`Islington_college`) REFERENCES `department` (`Department_ID`),
+  CONSTRAINT `department_ibfk_2` FOREIGN KEY (`Merryland_college`) REFERENCES `department` (`Department_ID`),
+  CONSTRAINT `department_ibfk_3` FOREIGN KEY (`Herald_college`) REFERENCES `department` (`Department_ID`),
+  CONSTRAINT `department_ibfk_4` FOREIGN KEY (`Ithari_international_college`) REFERENCES `department` (`Department_ID`),
+  CONSTRAINT `department_ibfk_5` FOREIGN KEY (`Informatics_college`) REFERENCES `department` (`Department_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `department`
+--
+
+LOCK TABLES `department` WRITE;
+/*!40000 ALTER TABLE `department` DISABLE KEYS */;
+INSERT INTO `department` VALUES ('DD00002','DD00002','DD00002','DD00002','DD00002','DD00002'),('DD00003',NULL,NULL,NULL,NULL,NULL),('DD00004',NULL,NULL,NULL,NULL,NULL),('DD00005',NULL,NULL,NULL,NULL,NULL),('DD0001','DD0001',NULL,'DD0001','DD0001','DD0001');
+/*!40000 ALTER TABLE `department` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `department_details`
+--
+
+DROP TABLE IF EXISTS `department_details`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `department_details` (
+  `Department_ID` varchar(10) DEFAULT NULL,
+  `Department_Name` varchar(20) DEFAULT NULL,
+  UNIQUE KEY `Department_Name` (`Department_Name`),
+  KEY `Department_ID` (`Department_ID`),
+  CONSTRAINT `department_details_ibfk_1` FOREIGN KEY (`Department_ID`) REFERENCES `department` (`Department_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `department_details`
+--
+
+LOCK TABLES `department_details` WRITE;
+/*!40000 ALTER TABLE `department_details` DISABLE KEYS */;
+INSERT INTO `department_details` VALUES ('DD0001','Engineering'),('DD00002','Business'),('DD00003','Arts'),('DD00004','History'),('DD00005','Education');
+/*!40000 ALTER TABLE `department_details` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `programmes`
+--
+
+DROP TABLE IF EXISTS `programmes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `programmes` (
+  `Course_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Course` varchar(50) DEFAULT NULL,
+  UNIQUE KEY `Course` (`Course`),
+  KEY `Course_ID` (`Course_ID`),
+  CONSTRAINT `programmes_ibfk_1` FOREIGN KEY (`Course_ID`) REFERENCES `course` (`Course_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `programmes`
+--
+
+LOCK TABLES `programmes` WRITE;
+/*!40000 ALTER TABLE `programmes` DISABLE KEYS */;
+INSERT INTO `programmes` VALUES (1,'BSc computing'),(2,'BSc computer networking and it security'),(3,'BSc multimedia technoloyg'),(4,'BSc mobile application development'),(5,'BA accounting and finnce'),(6,'BA business administrative');
+/*!40000 ALTER TABLE `programmes` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2019-03-25 11:24:34
